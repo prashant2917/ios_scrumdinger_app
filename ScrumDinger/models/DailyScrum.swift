@@ -7,9 +7,13 @@
 
 import Foundation
 import ThemeKit
-struct DailyScrum: Identifiable {
+import SwiftData
+
+@Model
+class DailyScrum: Identifiable {
     var id: UUID
     var title: String
+    @Relationship(deleteRule: .cascade, inverse: \Attendee.dailyScrum)
     var attendees: [Attendee]
     var lengthInMinutes: Int
     var theme: Theme
@@ -22,6 +26,8 @@ struct DailyScrum: Identifiable {
             lengthInMinutes = Int(newValue)
         }
     }
+    @Relationship(deleteRule: .cascade, inverse: \History.dailyScrum)
+        var history: [History] = []
 
     init(
         id: UUID = UUID(),
@@ -36,22 +42,6 @@ struct DailyScrum: Identifiable {
         self.lengthInMinutes = lengthInMinutes
         self.theme = theme
 
-    }
-}
-
-extension DailyScrum {
-    struct Attendee: Identifiable {
-        let id: UUID
-        var name: String
-
-        init(id: UUID = UUID(), name: String) {
-            self.id = id
-            self.name = name
-        }
-    }
-    
-    static var EmptyScrum : DailyScrum {
-        DailyScrum(title: "", attendees: [], lengthInMinutes: 5, theme: .sky)
     }
 }
 

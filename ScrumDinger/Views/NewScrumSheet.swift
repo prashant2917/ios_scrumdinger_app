@@ -12,7 +12,6 @@ struct NewScrumSheet: View {
         }
     }
 }
-
 #Preview {
     NewScrumSheet()
 }
